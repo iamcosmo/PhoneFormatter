@@ -7,9 +7,9 @@ const InputField = () => {
   
   const handleInputChange = (event) => {
 
-    let r = /(\D+)/g, firstStr = "", middlStr = "", lastStr = "";
+    let removalList = /(\D+)/g, firstStr = "", middlStr = "", lastStr = "";
     let oldStr = event.target.value;
-    let newVal = event.target.value.replace(r, "");
+    let newVal = event.target.value.replace(removalList, "");
     
     if (newVal.length > 0) {
       firstStr = newVal.substr(0, 3);
@@ -33,30 +33,25 @@ const InputField = () => {
     }
 
     setInputVal(newVal);
-    console.log("oldStr Value: "+oldStr);
-    console.log("New Value: "+newVal);
 
-    console.log("new Value Length: "+newVal.length);
-
-    let ci = 0;
-    while (ci<newVal.length) {
-      console.log("ci: "+ci);
-      if (oldStr.charAt(ci)!==newVal.charAt(ci)) {
-        if (newVal.charAt(ci)==='-'||newVal.charAt(ci)===')') {
-            ci+=2;
+    let currentIndex = 0;
+    while (currentIndex<newVal.length) {
+      if (oldStr.charAt(currentIndex)!==newVal.charAt(currentIndex)) {
+        if (newVal.charAt(currentIndex)==='-'||newVal.charAt(currentIndex)===')') {
+            currentIndex+=2;
         }
         break;
       }
-      ci+=1;
+      currentIndex+=1;
     }    
-    setSelectionStart(ci);  
+    setSelectionStart(currentIndex);  
     
     
   };
 
   useEffect(function () {
-    const cp = selectionStart;
-    inputRef.current.setSelectionRange(cp, cp);
+    const currentNewPosition = selectionStart;
+    inputRef.current.setSelectionRange(currentNewPosition, currentNewPosition);
   });
 
 
